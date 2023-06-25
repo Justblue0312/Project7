@@ -1,10 +1,9 @@
 from fastapi_sqlalchemy import db
 
 from app.db.sqlite_handler import SqliteManager
+from app.libs.utils import generate_keyname
 from app.models import Sqlite, User
 from app.schemas.sche_sqlite import CreateDatabaseRequest
-
-from app.libs.utils import generate_keyname
 
 
 class SqliteService(object):

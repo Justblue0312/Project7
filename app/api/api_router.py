@@ -1,12 +1,7 @@
 from fastapi import APIRouter
 
-from app.api import (
-    api_healthcheck,
-    api_login,
-    api_register,
-    api_user,
-    api_sqlite
-)
+from app.api import (api_healthcheck, api_login, api_register, api_sqlite,
+                     api_user)
 
 router = APIRouter()
 

@@ -80,7 +80,7 @@ def get_message_validation(exc):
     message = ""
     for error in exc.errors():
         message += (
-                "/'" + str(error.get("loc")[1]) + "'/" + ": " + error.get("msg") + ", "
+            "/'" + str(error.get("loc")[1]) + "'/" + ": " + error.get("msg") + ", "
         )
 
     message = message[:-2]

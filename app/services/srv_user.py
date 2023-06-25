@@ -11,12 +11,8 @@ from starlette import status
 
 from app.models import User
 from app.schemas.sche_token import TokenPayload
-from app.schemas.sche_user import (
-    UserCreateRequest,
-    UserRegisterRequest,
-    UserUpdateMeRequest,
-    UserUpdateRequest,
-)
+from app.schemas.sche_user import (UserCreateRequest, UserRegisterRequest,
+                                   UserUpdateMeRequest, UserUpdateRequest)
 
 
 class UserService(object):
@@ -39,7 +35,7 @@ class UserService(object):
 
     @staticmethod
     def get_current_user(
-            http_authorization_credentials=Depends(reusable_oauth2),
+        http_authorization_credentials=Depends(reusable_oauth2),
     ) -> User:
         """
         Decode JWT token to get user_id => return User info from DB query

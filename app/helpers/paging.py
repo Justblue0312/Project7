@@ -33,11 +33,11 @@ class BasePage(ResponseSchemaBase, GenericModel, Generic[T], ABC):
     @classmethod
     @abstractmethod
     def create(
-            cls: Type[C],
-            code: str,
-            message: str,
-            data: Sequence[T],
-            metadata: MetadataSchema,
+        cls: Type[C],
+        code: str,
+        message: str,
+        data: Sequence[T],
+        metadata: MetadataSchema,
     ) -> C:
         pass  # pragma: no cover
 
@@ -47,7 +47,7 @@ class Page(BasePage[T], Generic[T]):
 
     @classmethod
     def create(
-            cls, code: str, message: str, data: Sequence[T], metadata: MetadataSchema
+        cls, code: str, message: str, data: Sequence[T], metadata: MetadataSchema
     ) -> "Page[T]":
         return cls(code=code, message=message, data=data, metadata=metadata)
 
