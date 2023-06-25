@@ -1,7 +1,4 @@
-import uuid
-
-from sqlalchemy import Integer, Column, ForeignKey, String
-from sqlalchemy.orm import relationship
+from sqlalchemy import Column, ForeignKey, Integer, String
 
 from app.models.model_base import BareBaseModel
 from app.models.model_user import User

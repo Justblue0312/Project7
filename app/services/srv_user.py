@@ -11,12 +11,8 @@ from starlette import status
 
 from app.models import User
 from app.schemas.sche_token import TokenPayload
-from app.schemas.sche_user import (
-    UserCreateRequest,
-    UserRegisterRequest,
-    UserUpdateMeRequest,
-    UserUpdateRequest,
-)
+from app.schemas.sche_user import (UserCreateRequest, UserRegisterRequest,
+                                   UserUpdateMeRequest, UserUpdateRequest)
 
 
 class UserService(object):

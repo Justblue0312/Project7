@@ -12,3 +12,13 @@ class UserDatabaseResponse(BaseModel):
     db_name: str
     db_keyname: str
     owner_id: str
+
+
+class TableColumn(BaseModel):
+    name: str
+    data_type: str
+
+
+class CreateTablePayload(BaseModel):
+    table_name: str
+    form: dict[str, TableColumn]
