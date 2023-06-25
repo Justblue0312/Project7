@@ -18,5 +18,6 @@ class SqliteService(object):
         db.session.add(new_db)
         db.session.commit()
 
-        SqliteManager(data.db_name).create_db()
+        with SqliteManager(data.db_name) as db_manager:
+            db_manager.create_db()
         return new_db

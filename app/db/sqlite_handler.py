@@ -2,14 +2,18 @@ import os
 from contextlib import contextmanager
 from typing import Callable, List, Union, Any
 
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, Session
+from sqlalchemy import create_engine, Column, String
+from sqlalchemy.orm import sessionmaker, Session, DeclarativeBase
 from sqlalchemy.pool import QueuePool
 
 from app.core.config import BASE_DIR
 
 STORAGE_DIR = os.path.join(BASE_DIR, "storages")
 os.makedirs(STORAGE_DIR, exist_ok=True)
+
+
+class _Base(DeclarativeBase):
+    pass
 
 
 class SqliteManager(object):
@@ -62,5 +66,4 @@ class SqliteManager(object):
             return query_func(session)
 
     def create_db(self) -> None:
-        with SqliteManager(self.db_url) as db_manager:
-            pass
+        _Base.metadata.create_all(self.engine)
