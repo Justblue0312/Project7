@@ -1,7 +1,12 @@
 import time
+import random
 from typing import Any, Dict, List, Literal, Optional, Union
 
 import orjson
+
+
+def generate_keyname() -> str:
+    return str(int(time.time())) + random.randbytes(16).hex()
 
 
 def json_decode(data: Optional[Any]) -> Union[List, Dict, Literal[False]]:

@@ -3,18 +3,15 @@ from typing import Any
 
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi_sqlalchemy import db
+from sqlalchemy import and_
 
 from app.helpers.exception_handler import CustomException
 from app.helpers.login_manager import PermissionRequired, login_required
 from app.helpers.paging import Page, PaginationParams, paginate
 from app.models import User
 from app.schemas.sche_base import DataResponse
-from app.schemas.sche_user import (
-    UserCreateRequest,
-    UserItemResponse,
-    UserUpdateMeRequest,
-    UserUpdateRequest,
-)
+from app.schemas.sche_user import (UserCreateRequest, UserItemResponse,
+                                   UserUpdateMeRequest, UserUpdateRequest)
 from app.services.srv_user import UserService
 
 logger = logging.getLogger()
@@ -85,7 +82,9 @@ def update_me(
         if user_data.email is not None:
             exist_user = (
                 db.session.query(User)
-                .filter(User.email == user_data.email, User.id != current_user.id)
+                .filter(
+                    and_(User.email == user_data.email, not User.id == current_user.id)
+                )
                 .first()
             )
             if exist_user:

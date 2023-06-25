@@ -1,12 +1,19 @@
 from fastapi import APIRouter
 
-from app.api import api_healthcheck, api_login, api_register, api_user
+from app.api import (
+    api_healthcheck,
+    api_login,
+    api_register,
+    api_user,
+    api_sqlite
+)
 
 router = APIRouter()
 
 router.include_router(
-    api_healthcheck.router, tags=["health-check"], prefix="/healthcheck"
+    api_healthcheck.router, tags=["Health-Check"], prefix="/healthcheck"
 )
-router.include_router(api_login.router, tags=["login"], prefix="/login")
-router.include_router(api_register.router, tags=["register"], prefix="/register")
-router.include_router(api_user.router, tags=["user"], prefix="/users")
+router.include_router(api_login.router, tags=["Login"], prefix="/login")
+router.include_router(api_register.router, tags=["Register"], prefix="/register")
+router.include_router(api_user.router, tags=["User"], prefix="/users")
+router.include_router(api_sqlite.router, tags=["DB"], prefix="/db")

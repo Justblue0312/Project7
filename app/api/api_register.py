@@ -1,6 +1,6 @@
 from typing import Any
 
-from fastapi import APIRouter, status
+from fastapi import APIRouter
 from fastapi_sqlalchemy import db
 
 from app.helpers.exception_handler import CustomException
@@ -21,9 +21,6 @@ def register(register_data: UserRegisterRequest) -> Any:
         if exist_user:
             raise Exception("Email already exists")
         register_user = UserService().register_user(register_data)
-        return DataResponse().success_response(
-            code=str(status.HTTP_200_OK),
-            data=register_user
-        )
+        return DataResponse().success_response(data=register_user)
     except Exception as e:
         raise CustomException(http_code=400, code="400", message=str(e))

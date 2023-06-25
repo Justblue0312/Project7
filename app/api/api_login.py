@@ -13,7 +13,7 @@ router = APIRouter()
 
 
 class LoginRequest(BaseModel):
-    username: EmailStr = "long.dh@teko.vn"
+    username: EmailStr = "abc@email.vn"
     password: str = "secret123"
 
 
