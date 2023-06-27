@@ -1,0 +1,17 @@
+{
+  "table_name": "test",
+  "form": {
+    "name": {
+      "name": "name",
+      "data_type": "string"
+    },
+    "description": {
+      "name": "description",
+      "data_type": "string"
+    },
+    "price": {
+      "name": "price",
+      "data_type": "double"
+    }
+  }
+}

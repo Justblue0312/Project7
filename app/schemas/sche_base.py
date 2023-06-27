@@ -18,7 +18,7 @@ class ResponseSchemaBase(BaseModel):
         return self
 
     def success_response(self):
-        self.code = "000"
+        self.code = "200"
         self.message = "success"
         return self
 
@@ -29,13 +29,13 @@ class DataResponse(ResponseSchemaBase, GenericModel, Generic[T]):
     class Config:
         arbitrary_types_allowed = True
 
-    def custom_response(self, code: str, message: str, data: T):
+    def custom_response(self, code: str, message: str, data: [T]):
         self.code = code
         self.message = message
         self.data = data
         return self
 
-    def success_response(self, data: T = None):
+    def success_response(self, data: Optional[T] = None):
         self.code = "200"
         self.message = "success"
         self.data = data

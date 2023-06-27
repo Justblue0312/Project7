@@ -4,12 +4,13 @@ from contextlib import contextmanager
 from typing import Any, Callable, List, Union, Optional, Dict
 
 import sqlalchemy.types as ST
-from sqlalchemy import Column, create_engine, Engine
+from sqlalchemy import create_engine, Engine, Executable
 from sqlalchemy.orm import Session, sessionmaker
 from sqlalchemy.pool import QueuePool
 
 from app.core.config import BASE_DIR
 from app.models.model_base import BareBaseModel
+from app.libs.file import validate_sqlite_file_extension
 
 logger = logging.getLogger()
 
@@ -28,7 +29,7 @@ _type_mapping = {
 
 class SqliteManager(object):
     def __init__(self, db_name: str, pool_size: int = 5):
-        self.db_name: str = db_name
+        self.db_name: str = validate_sqlite_file_extension(db_name)
         self.db_url: str = f"sqlite:///{STORAGE_DIR}/{db_name}"
         self.pool_size: int = pool_size
         self.engine: Optional[Engine] = None
@@ -64,7 +65,7 @@ class SqliteManager(object):
 
     @contextmanager
     def session_scope(self):
-        session = self.Session()
+        session = self.Session()  # type: ignore
         try:
             yield session
             session.commit()
@@ -75,15 +76,15 @@ class SqliteManager(object):
         finally:
             session.close()
 
-    def execute_query(self, query_func: Callable[[Session], any]) -> Any:
+    def execute_query(self, query_func: Callable[[Session], Any]) -> Any:
         with self.session_scope() as session:
             return query_func(session)
 
     def create_db(self) -> None:
-        BareBaseModel.metadata.create_all(self.engine)
+        BareBaseModel.metadata.create_all(self.engine)  # type: ignore
 
     def drop_db(self) -> None:
-        BareBaseModel.metadata.drop_all(self.engine)
+        BareBaseModel.metadata.drop_all(self.engine)  # type: ignore
 
 
 class DatabaseHandler(object):
@@ -91,7 +92,7 @@ class DatabaseHandler(object):
         self.db_name = db_name
         self.db_manager = db_manager
 
-    def execute_query(self, query_func: Callable[[Session], any]) -> Any:
+    def execute_query(self, query_func: Callable[[Session], Any]) -> Any:
         with self.db_manager.session_scope() as session:
             return query_func(session)
 
@@ -111,11 +112,14 @@ class TableHandler(object):
         self.db_manager.bind_tables(models)
 
     def query_raw(
-            self, query: str, is_committed: bool = False, is_fetched: bool = False
-    ) -> list[dict[Any, Any]]:
+        self,
+        query: Executable | str,
+        is_committed: bool = False,
+        is_fetched: bool = False,
+    ):
         with self.db_manager.session_scope() as session:
             try:
-                result = session.execute(query)
+                result = session.execute(query)  # type:ignore
                 if is_committed:
                     session.commit()
                 if is_fetched:
@@ -126,12 +130,13 @@ class TableHandler(object):
             finally:
                 session.close()
 
-    def create_tbl(self, table_name: str, columns: Dict[str, Column]) -> None:
-
-        table = type(table_name, (BareBaseModel,), {"__tablename__": table_name, **columns})
+    def create_tbl(self, table_name: str, columns: Dict[str, Any]) -> None:
+        table = type(
+            table_name, (BareBaseModel,), {"__tablename__": table_name, **columns}
+        )
 
         with self.db_manager.session_scope() as session:
-            table.__table__.create(bind=session.connection(), checkfirst=True)
+            table.__table__.create(bind=session.connection(), checkfirst=True)  # type: ignore
 
     def del_tbl(self, table_name: str):
         self.query_raw(f"DROP TABLE `{table_name}`;")

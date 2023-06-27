@@ -41,7 +41,7 @@ class CustomException(Exception):
     code: str
     message: str
 
-    def __init__(self, http_code: int = None, code: str = None, message: str = None):
+    def __init__(self, http_code: int = 500, code: str = "", message: str = ""):
         self.http_code = http_code if http_code else 500
         self.code = code if code else str(self.http_code)
         self.message = message
@@ -70,7 +70,7 @@ async def fastapi_error_handler(request, exc):
         status_code=500,
         content=jsonable_encoder(
             ResponseSchemaBase().custom_response(
-                "500", "Có lỗi xảy ra, vui lòng liên hệ admin!"
+                "500", "Something went wrong, please contact support!"
             )
         ),
     )

@@ -7,12 +7,11 @@ from starlette.middleware.cors import CORSMiddleware
 from app.api.api_router import router
 from app.core.config import settings
 from app.db.base import engine
-from app.helpers.exception_handler import (CustomException,
-                                           http_exception_handler)
+from app.helpers.exception_handler import CustomException, http_exception_handler
 from app.models import Base
 
-logging.config.fileConfig(settings.LOGGING_CONFIG_FILE, disable_existing_loggers=False)
-Base.metadata.create_all(bind=engine)
+logging.config.fileConfig(settings.LOGGING_CONFIG_FILE, disable_existing_loggers=False)  # type: ignore
+Base.metadata.create_all(bind=engine)  # type: ignore
 
 
 def get_application() -> FastAPI:
