@@ -72,8 +72,8 @@ def detail_me(current_user: User = Depends(UserService().get_current_user)) -> A
     response_model=DataResponse[UserItemResponse],
 )
 def update_me(
-        user_data: UserUpdateMeRequest,
-        current_user: User = Depends(UserService().get_current_user),
+    user_data: UserUpdateMeRequest,
+    current_user: User = Depends(UserService().get_current_user),
 ) -> Any:
     """
     API Update current User

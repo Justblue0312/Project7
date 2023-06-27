@@ -5,7 +5,7 @@ from app.models import User
 
 
 def login_required(
-        http_authorization_credentials: str = Depends(UserService().reusable_oauth2),
+    http_authorization_credentials: str = Depends(UserService().reusable_oauth2),
 ):
     return UserService().get_current_user(http_authorization_credentials)
 

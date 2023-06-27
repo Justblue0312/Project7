@@ -1,5 +1,4 @@
 import uvicorn
-
 from pre_setup import get_application
 
 app = get_application()

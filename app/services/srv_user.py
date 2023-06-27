@@ -35,7 +35,7 @@ class UserService(object):
 
     @staticmethod
     def get_current_user(
-            http_authorization_credentials=Depends(reusable_oauth2),
+        http_authorization_credentials=Depends(reusable_oauth2),
     ) -> User:
         """
         Decode JWT token to get user_id => return User info from DB query
